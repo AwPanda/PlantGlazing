@@ -11,4 +11,19 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+    <!--Login screen values-->
+    <string name="lg_username">User Name</string>
+    <string name="lg_password">Password</string>
+    <string name="lg_login">Login</string>
+    <string name="lg_register">Register</string>
+    <string name="lg_main">Please Login Below</string>
+    <!--Register screen values-->
+    <string name="rg_username">User Name</string>
+    <string name="rg_password">Password</string>
+    <string name="rg_email">Email Address</string>
+    <string name="rg_confirmpass">Confirm Password</string>
+    <string name="rg_submit">Submit</string>
+    <string name="rg_login">Already have an account? Login here!</string>
+    <string name="rg_main">Register An Account</string>
 </resources>
