@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PlantGlazing</string>
+    <string name="testButton">Push me</string>
+    <string name="introText">Welcome to Plant Glazing App</string>
+</resources>

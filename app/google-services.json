@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "970122683649",
+    "firebase_url": "https://plantglazing-d6d1b.firebaseio.com",
+    "project_id": "plantglazing-d6d1b",
+    "storage_bucket": "plantglazing-d6d1b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970122683649:android:d6abd0eda821fc5078a700",
+        "android_client_info": {
+          "package_name": "com.example.plantglazing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "970122683649-vdk1u7mple03vig60l7h4cacqn4fnfq9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdOWlv9Emk_e91y-oCZLSR1fejyPeaR6M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970122683649-vdk1u7mple03vig60l7h4cacqn4fnfq9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
