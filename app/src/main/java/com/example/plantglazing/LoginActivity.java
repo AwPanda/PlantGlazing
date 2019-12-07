@@ -43,10 +43,9 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(v -> {
 
             System.out.print(v);
-            if (checkNetworkConnection() != false) {
+            if (checkNetworkConnection()) {
                 // Call login function
                 UserLogin();
-
             } else {
                 // Return toast to user letting them know that they are not connected to internet
                 // Since my applicaiton is primarly internet based i should give the user an error alteast to let them know!

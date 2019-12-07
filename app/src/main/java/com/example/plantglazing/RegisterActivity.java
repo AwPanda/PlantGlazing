@@ -46,19 +46,18 @@ public class RegisterActivity extends AppCompatActivity {
         // Get fire base instance
         fAuth = FirebaseAuth.getInstance();
 
-        registerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkNetworkConnection() != false) {
-                    RegisterAccount();
-                } else {
-                    Toast.makeText(RegisterActivity.this, "No Internet Connection, Please Connect to the Internet", Toast.LENGTH_SHORT).show();
-                }
+        registerBtn.setOnClickListener( v -> {
+            if (checkNetworkConnection()) {
+                RegisterAccount();
+            } else {
+                Toast.makeText(RegisterActivity.this, "No Internet Connection, Please Connect to the Internet", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
+
+
     private void RegisterAccount() {
+        // Get user entered data
         String email = regEmail.getText().toString();
         String password = regPass.getText().toString();
         String confirmPassword = regConfirmPass.getText().toString();
