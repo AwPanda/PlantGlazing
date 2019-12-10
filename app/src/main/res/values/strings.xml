@@ -26,4 +26,7 @@
     <string name="rg_submit">Submit</string>
     <string name="rg_login">Already have an account? Login here!</string>
     <string name="rg_main">Register An Account</string>
+    <!--  Main activity screen values  -->
+    <string name="main_info">Welcome to Plant Glazing</string>
+    <string name="main_info2">Please fill out the email form below to submit an enquiry!</string>
 </resources>

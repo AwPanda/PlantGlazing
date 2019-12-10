@@ -1,28 +1,43 @@
 package com.example.plantglazing;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
+    // Firebase variables
 
+    private DatabaseReference myRef;
     private FirebaseAuth fAuth;
+    private FirebaseFirestore db;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference usersRef;
+
+    private FirebaseUser user;
+
+
+    // Variables for text, buttons etc...
     private Button registerBtn;
     private Button loginBtn;
     private EditText regFullName;
@@ -61,28 +76,85 @@ public class RegisterActivity extends AppCompatActivity {
         String email = regEmail.getText().toString();
         String password = regPass.getText().toString();
         String confirmPassword = regConfirmPass.getText().toString();
+        String fullname = regFullName.getText().toString();
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Email address is invalid", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Password is invalid", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(fullname)) {
+            Toast.makeText(this, "Full Name is invalid", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(confirmPassword)) {
             Toast.makeText(this, "Confirm Password is invalid", Toast.LENGTH_SHORT).show();
         } else if (!password.equals(confirmPassword)) {
             Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
         } else {
 
-            fAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
+        fAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
 
-                            Toast.makeText(RegisterActivity.this, "Account Registered", Toast.LENGTH_SHORT).show();
-                        } else {
-                            String message = task.getException().getMessage();
-                            Toast.makeText(RegisterActivity.this, "Error Occured, Please Try Again" + message, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+// This is used for setting data in firestore
+                        Map<String, Object> docData = new HashMap<>();
+                        docData.put("role_admin", false); // User is not an admin!
+                        docData.put("user_firstname", fullname); // Set users full name in firestore
+
+                        // Get userId from firebase as we want to create a document for that user id
+                        String userId = fAuth.getUid();
+
+                        // Write data to user collection and make a new document with userid
+                        // The data we are writing is a role_admin, user_firstname
+                        db.collection("users").document(userId)
+                                .set(docData)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(RegisterActivity.this, "User details successfully created in database!", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(RegisterActivity.this, "Something went wrong with writing user details to database!", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                        Toast.makeText(RegisterActivity.this, "Account Registered", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String message = task.getException().getMessage();
+                        Toast.makeText(RegisterActivity.this, "Error Occured, Please Try Again" + message, Toast.LENGTH_SHORT).show();
+                    }
+                });
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = fAuth.getCurrentUser();
+
+        // Check to see if user is already logged in
+        if (currentUser != null) {
+            MainRedirect();
+        }
+    }
+
+    //Function to close the current activity and open the 'Main Activity'
+    private void MainRedirect() {
+        Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(mainIntent);
+        finish();
+    }
+
+    /*
+    All used resources are disposed properly. The Listeners are removed here.
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        registerBtn.setOnClickListener(null);
+        loginBtn.setOnClickListener(null);
+
     }
     // Used to check if the user is created to the internet
     public boolean checkNetworkConnection() {
