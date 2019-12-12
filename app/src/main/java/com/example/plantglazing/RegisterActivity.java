@@ -34,7 +34,6 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference usersRef;
 
-    private FirebaseUser user;
 
 
     // Variables for text, buttons etc...
@@ -49,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        setTitle("Register Account");
 
         // Setup resource ids so we can reference them later
         registerBtn = findViewById(R.id.rgSubmit);
@@ -60,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Get fire base instance
         fAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         registerBtn.setOnClickListener( v -> {
             if (checkNetworkConnection()) {
@@ -72,12 +73,14 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     private void RegisterAccount() {
+
         // Get user entered data
         String email = regEmail.getText().toString();
         String password = regPass.getText().toString();
         String confirmPassword = regConfirmPass.getText().toString();
         String fullname = regFullName.getText().toString();
 
+        // Check all input fields to make sure they are correct when submited
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Email address is invalid", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(password)) {
@@ -90,6 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
         } else {
 
+            // Create user with email and password firebase method
         fAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -99,8 +103,10 @@ public class RegisterActivity extends AppCompatActivity {
                         docData.put("role_admin", false); // User is not an admin!
                         docData.put("user_firstname", fullname); // Set users full name in firestore
 
+                        FirebaseUser user = fAuth.getCurrentUser(); // Get current user
+
                         // Get userId from firebase as we want to create a document for that user id
-                        String userId = fAuth.getUid();
+                        String userId = user.getUid();
 
                         // Write data to user collection and make a new document with userid
                         // The data we are writing is a role_admin, user_firstname
@@ -119,6 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     }
                                 });
                         Toast.makeText(RegisterActivity.this, "Account Registered", Toast.LENGTH_SHORT).show();
+                        MainRedirect(); // Redirect to mainactivity
                     } else {
                         String message = task.getException().getMessage();
                         Toast.makeText(RegisterActivity.this, "Error Occured, Please Try Again" + message, Toast.LENGTH_SHORT).show();

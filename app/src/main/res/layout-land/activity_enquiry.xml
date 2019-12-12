@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EnquiryActivity">
+
+<ScrollView
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:hint="Full Name"
+        android:id="@+id/enqFullname"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:hint="Email Address"
+        android:inputType="textEmailAddress"
+        android:id="@+id/enqEmail"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:inputType="phone"
+        android:hint="Phone Number"
+        android:id="@+id/enqPhone"
+        />
+
+    <EditText
+        android:id="@+id/enqLocation"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:hint="Postcode or use get current location" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/btnLocation"
+        android:text="@string/btnLocation"
+        />
+
+    <EditText
+        android:id="@+id/enqMsg"
+        android:layout_width="match_parent"
+        android:layout_height="403dp"
+        android:layout_marginTop="20dp"
+        android:hint="Enquiry Message"
+        android:inputType="textMultiLine|textLongMessage" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/btnSubmitEnq"
+        android:text="@string/btnSubmitEnq"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/btnBack"
+        android:text="@string/btnGoBack"
+        />
+
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>

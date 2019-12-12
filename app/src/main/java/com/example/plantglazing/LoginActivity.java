@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setTitle("Login");
 
         // Pre-Load a bunch of resource ids so i can use them for later
         loginBtn = findViewById(R.id.lgBtn);
@@ -104,10 +105,27 @@ public class LoginActivity extends AppCompatActivity {
 
     //Function to close the current activity and open the 'Main Activity'
     private void MainRedirect() {
-        Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(mainIntent);
-        finish();
+
+        // Check to see if the user is an admin
+        FirebaseUser user = fAuth.getCurrentUser();
+
+        String email = user.getEmail();
+
+        if(email.equals("admin@plantglazing.com"))
+        {
+            Intent adminIntent = new Intent(LoginActivity.this, AdminActivity.class);
+            adminIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(adminIntent);
+            finish();
+        }
+        else
+        {
+            Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(mainIntent);
+            finish();
+        }
+
     }
 
     //Function to close the current activity and open the 'Register Activity'
@@ -161,6 +179,8 @@ public class LoginActivity extends AppCompatActivity {
                                     });
                             // Let the user know they mangaged to login succesfully!
                             Toast.makeText(LoginActivity.this, "Successful Login", Toast.LENGTH_SHORT).show();
+
+                            MainRedirect(); // call MainRedirect method
 
                         } else {
                             String message = task.getException().getMessage(); // Get error exception

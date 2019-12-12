@@ -28,5 +28,14 @@
     <string name="rg_main">Register An Account</string>
     <!--  Main activity screen values  -->
     <string name="main_info">Welcome to Plant Glazing</string>
-    <string name="main_info2">Please fill out the email form below to submit an enquiry!</string>
+    <string name="main_info2">Choose an option below!</string>
+    <string name="lgoutBtn">Logout</string>
+    <string name="enqBtn">Create Enquiry</string>
+    <string name="main_websiteBtn">View Website</string>
+    <!--  Enquiry screen values  -->
+    <string name="btnLocation">Get Current Location</string>
+    <string name="btnSubmitEnq">Submit Enquiry</string>
+    <string name="btnGoBack">Main Menu</string>
+
+
 </resources>
