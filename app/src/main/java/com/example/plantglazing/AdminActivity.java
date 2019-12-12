@@ -35,6 +35,7 @@ public class AdminActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+        setTitle("Admin Menu - All enquries");
 
         // Get views by id
         textView = findViewById(R.id.text_view_data);
@@ -103,7 +104,7 @@ public class AdminActivity extends AppCompatActivity {
     // I don't want them to have to logout then back in to get enquiries!
     public void loadEnquiries(View v) {
         enquiriesRef
-                .orderBy("date", Query.Direction.DESCENDING)
+                .orderBy("DateSent", Query.Direction.DESCENDING)
                 .limit(3)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
